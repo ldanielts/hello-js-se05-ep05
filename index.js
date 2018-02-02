@@ -28,6 +28,23 @@ app.post("/addcontato", (req, res) => {
     console.log(err)
   })
 })
+app.get("/listprodutos", (req, res) => {
+  knex("produto").select().then(ret => {
+    res.send(ret)
+  }).catch(err => {
+    res.status(500).send(err)
+    console.log(err)
+  })  
+})
+app.post("/addproduto", (req, res) => {
+  var produto = req.body;
+  knex("produto").insert(produto, "idproduto").then(ret => {
+      res.send(ret)
+  }).catch(err => {
+    res.status(500).send(err)
+    console.log(err)
+  })
+})
 
 knex.migrate.latest().then(_ => 
   app.listen(3000, _ => 
